@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://appzheimer:appzheimer@ds111748.mlab.com:11748/appzheimer');
 
-
+var usuarioModel = require('./models/usuario');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
