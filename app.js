@@ -10,6 +10,7 @@ mongoose.connect('mongodb://appzheimer:appzheimer@ds111748.mlab.com:11748/appzhe
 var index = require('./routes/index');
 var users = require('./routes/users');
 var usuarios = require('./routes/usuarios');
+var usuarioModel = require('./models/usuario');
 
 var app = express();
 
