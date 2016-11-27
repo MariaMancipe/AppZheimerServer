@@ -4,8 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://appzheimer:appzheimer@ds111748.mlab.com:11748/appzheimer');
+//var mongoose   = require('mongoose');
+//mongoose.connect('mongodb://appzheimer:appzheimer@ds111748.mlab.com:11748/appzheimer');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
