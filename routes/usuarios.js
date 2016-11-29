@@ -18,6 +18,15 @@ router.get('/:usuario_id', function(req, res) {
     res.json({message:'No se ha encontrado un usuario con ese id'});
 });
 
+router.get('/byEmail/:usuario_email', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].email == req.params.email_id){
+            res.json(usuarios[i]);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese email'});
+});
+
 router.get('/familiares/:usuario_id', function(req, res) {
     for( var i=0;i<usuarios.length;i++){
         if(usuarios[i].id == req.params.usuario_id){
@@ -70,6 +79,19 @@ router.get('/ubicaciones/:usuario_id', function(req, res) {
     for( var i=0;i<usuarios.length;i++){
         if(usuarios[i].id == req.params.usuario_id){
             res.json(usuarios[i].ubicaciones);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.get('/ubicaciones/:usuario_id/:fecha', function(req, res) {
+    var us =[];
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            for(var j=0;j<usuarios[i].ubicaciones.length;j++){
+                if(usuarios[i].ubicaciones[j].fecha === req.params.fecha)
+                    us.push(usuarios[i].ubicaciones[j]);
+            }
         }
     }
     res.json({message:'No se ha encontrado un usuario con ese id'});
