@@ -19,8 +19,9 @@ router.get('/:usuario_id', function(req, res) {
 });
 
 router.get('/byEmail/:usuario_email', function(req, res) {
+    console.log(req.params.usuario_email);
     for( var i=0;i<usuarios.length;i++){
-        if(usuarios[i].email == req.params.email_id){
+        if(usuarios[i].email == req.params.usuario_email){
             res.json(usuarios[i]);
         }
     }
