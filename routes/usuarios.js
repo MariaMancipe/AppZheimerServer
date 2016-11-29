@@ -1,5 +1,6 @@
 var express = require('express');
-var usuarioModel = require('../models/usuario');
+var usuarios =[];
+var index = -1;
 var router = express.Router();
 
 /* GET home page. */
@@ -9,57 +10,120 @@ router.use(function(req, res, next) {
 });
 
 router.get('/:usuario_id', function(req, res) {
-    usuarioModel.findById(req.params.usuario_id, function(err, u) {
-        if (err)
-            res.send(err);
-        res.json(u);
-    });
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            res.json(usuarios[i]);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
 });
+
+router.get('/familiares/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            res.json(usuarios[i].familiares);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.post('/familiares/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            var f = {
+                nombre: req.body.nombre,
+                apodo: req.body.apodo,
+                parentesco : req.body.parentesco,
+                rutaImagen : req.body.rutaImagen
+            };
+            usuarios[i].familiares.push(f);
+            res.json({message:'Se agregó un familiar exitosamente'});
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.get('/rutina/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            res.json(usuarios[i].rutina);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.post('/rutina/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            var e = {
+                nombre: req.body.nombre,
+                hora: req.body.hora
+            };
+            usuarios[i].rutina.push(e);
+            res.json({message:'Se agregó un evento exitosamente'});
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.get('/ubicaciones/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            res.json(usuarios[i].ubicaciones);
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
+router.post('/ubicaciones/:usuario_id', function(req, res) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            var u = {
+                fecha: req.body.fecha,
+                direccion: req.body.direccion
+            };
+            usuarios[i].ubicaciones.push(u);
+            res.json({message:'Se agregó una ubicación exitosamente'});
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
+});
+
 router.put('/:usuario_id', function(req, res) {
-    usuarioModel.findById(req.params.usuario_id, function(err, u) {
+    for( var i=0;i<usuarios.length;i++){
+        if(usuarios[i].id == req.params.usuario_id){
+            usuarios[i].nombre=req.body.nombre;
+            usuarios[i].apodo=req.body.apodo;
+            usuarios[i].fecha=req.body.fecha;
+            usuarios[i].email=req.body.email;
+            usuarios[i].rutaImagen=req.body.rutaImagen;
+            res.json({message:'Se actualizó exitosamente'});
+        }
+    }
+    res.json({message:'No se ha encontrado un usuario con ese id'});
 
-        if (err)
-            res.send(err);
-
-        bear.name = req.body.name;  // update the bears info
-        u.nombre = req.body.nombre;
-        u.apodo = req.body.apodo;
-        u.fecha = req.body.fecha;
-        u.email = req.body.email;
-
-        // save the bear
-        u.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'El usuario fue modificado exitosamente' });
-        });
-
-    });
 });
 
 router.get('/', function(req, res) {
-    usuarioModel.find(function(err,usuarios){
-        if(err)
-            res.send(err);
-        res.json(usuarios);
-    });
+    res.json(usuarios);
 });
 
 router.post('/', function(req, res) {
-    var usuario = new usuarioModel();
-    usuario.nombre = req.body.nombre;
-    usuario.apodo = req.body.apodo;
-    usuario.fecha = req.body.fecha;
-    usuario.email = req.body.email;
-    usuario.rutaImagen = req.body.rutaImagen;
-    usuario.familiares =[];
-    usuario.rutina =[];
-    usuario.save(function(err){
-        if(err)
-            res.send(err);
-        res.json({message:'Usuario creado exitosamente'});
-    });
+    index++;
+    var u = {
+        id:index,
+        nombre:req.body.nombre,
+        apodo: req.body.apodo,
+        fecha : req.body.fecha,
+        email : req.body.email,
+        rutaImagen : req.body.rutaImagen,
+        familiares: [],
+        rutina: [],
+        ubicaciones:[]
+    };
+    usuarios.push(u);
+    res.json({message:'Usuario creado exitosamente'});
+
 });
 
 
